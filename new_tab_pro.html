@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Tab</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="wallpaper-bg"></div>
+
+    <div class="main-wrapper">
+        <!-- Header & Time -->
+        <div id="header-area" class="header">
+            <h1 id="clock">00:00</h1>
+            <p id="greeting">Good day, Rg</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div id="search-area" class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-input" placeholder="Search Google or enter URL..." autocomplete="off">
+        </div>
+
+        <!-- Category Bar -->
+        <div id="category-bar" class="category-bar"></div>
+
+        <!-- Shortcuts Grid -->
+        <div id="shortcut-grid" class="shortcut-grid"></div>
+    </div>
+
+    <!-- Folder Overlay View -->
+    <div id="folder-overlay" class="modal-overlay hidden">
+        <div class="folder-card">
+            <div class="folder-header">
+                <button id="folder-back-btn" class="folder-back">← Back</button>
+                <input type="text" id="folder-title-input" class="folder-name-input" value="Folder">
+                <button id="folder-close-btn" class="modal-close">&times;</button>
+            </div>
+            <p class="folder-tip">Tip: Drag items outside the box to remove them</p>
+            <div id="folder-grid" class="shortcut-grid in-folder"></div>
+        </div>
+    </div>
+
+    <!-- Add / Edit Modal -->
+    <div id="item-modal" class="modal-overlay hidden">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 id="modal-title">Edit Shortcut</h3>
+                <button id="modal-close-btn" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <label>Name</label>
+                <input type="text" id="modal-item-name" placeholder="e.g. YouTube">
+                <label>URL</label>
+                <input type="text" id="modal-item-url" placeholder="https://...">
+                <label>Category</label>
+                <select id="modal-item-category" class="modal-select"></select>
+                <label>Custom Icon URL (Optional)</label>
+                <input type="text" id="modal-item-icon" placeholder="Leave blank to auto-fetch">
+            </div>
+            <div class="modal-footer">
+                <button id="modal-save-btn" class="btn primary-btn">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Button & Modal -->
+    <button id="settings-trigger" class="settings-gear" title="Settings">⚙</button>
+
+    <div id="settings-modal" class="modal-overlay hidden">
+        <div class="modal-dialog settings-dialog">
+            <div class="modal-header">
+                <h3>Settings</h3>
+                <button id="settings-close-btn" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body settings-scroll">
+                <div class="setting-group">
+                    <h4>Visibility</h4>
+                    <label class="switch-row">
+                        <span>Show Clock</span>
+                        <input type="checkbox" id="pref-clock" checked>
+                    </label>
+                    <label class="switch-row">
+                        <span>Show Search</span>
+                        <input type="checkbox" id="pref-search" checked>
+                    </label>
+                    <label class="switch-row">
+                        <span>Show Categories</span>
+                        <input type="checkbox" id="pref-categories" checked>
+                    </label>
+                    <label class="switch-row">
+                        <span>Shortcut Glass Background</span>
+                        <input type="checkbox" id="pref-glass" checked>
+                    </label>
+                </div>
+
+                <div class="setting-group">
+                    <h4>Grid Layout</h4>
+                    <div class="slider-row">
+                        <label>Columns: <span id="label-cols">5</span></label>
+                        <input type="range" id="pref-cols" min="3" max="10" value="5">
+                    </div>
+                    <div class="slider-row">
+                        <label>Rows: <span id="label-rows">2</span></label>
+                        <input type="range" id="pref-rows" min="1" max="5" value="2">
+                    </div>
+                    <div class="slider-row">
+                        <label>Icon Size: <span id="label-size">64</span>px</label>
+                        <input type="range" id="pref-size" min="40" max="100" value="64">
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <h4>Wallpaper</h4>
+                    <div class="slider-row">
+                        <label>Blur Amount: <span id="label-blur">0</span>px</label>
+                        <input type="range" id="pref-blur" min="0" max="40" value="0">
+                    </div>
+                    <label class="upload-trigger">
+                        🖼️ Upload Custom Wallpaper
+                        <input type="file" id="wallpaper-input" accept="image/*" style="display:none;">
+                    </label>
+                    <button id="wallpaper-remove" class="btn danger-btn">Reset to Default</button>
+                </div>
+                
+                <div class="setting-group">
+                    <h4>Backup & Restore</h4>
+                    <button id="export-btn" class="btn primary-btn" style="width: 100%; margin-bottom: 10px;">💾 Manual Export</button>
+                    <label class="upload-trigger" style="margin-bottom: 15px;">
+                        📂 Import Shortcuts
+                        <input type="file" id="import-input" accept=".json" style="display:none;">
+                    </label>
+
+                    <h4 style="margin-top: 15px;">Auto-Backup</h4>
+                    <label class="switch-row">
+                        <span>Enable Auto-Backup</span>
+                        <input type="checkbox" id="pref-autobackup">
+                    </label>
+                    <div class="slider-row" id="autobackup-slider-container">
+                        <label>Frequency: Every <span id="label-autobackup-days">7</span> days</label>
+                        <input type="range" id="pref-autobackup-days" min="1" max="30" value="7">
+                    </div>
+                    <p class="folder-tip" style="text-align: left; margin-top: 5px; opacity: 0.6;">*Saves automatically to your Downloads folder.</p>
+                </div>
+
+                <div class="setting-group" style="border-bottom: none; margin-bottom: 0;">
+                    <h4>Support</h4>
+                    <a href="https://buymeacoffee.com/rgsekai" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: center; width: 100%; padding: 10px; background: #FFDD00; color: #000000; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 0.9rem; transition: transform 0.2s ease;">
+                        ☕ Buy me a coffee
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Right-Click Context Menu -->
+    <div id="context-menu" class="context-menu hidden">
+        <button id="ctx-action-edit">Edit</button>
+        <button id="ctx-action-out-folder" class="hidden">Move to Main Grid</button>
+        <button id="ctx-action-delete" class="ctx-danger">Delete</button>
+    </div>
+
+    <!-- Category Right-Click Menu -->
+    <div id="category-context-menu" class="context-menu hidden">
+        <button id="ctx-cat-rename">Rename</button>
+        <button id="ctx-cat-delete" class="ctx-danger">Delete</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

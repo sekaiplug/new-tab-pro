@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Rg Custom Dashboard",
+  "version": "1.0",
+  "description": "A custom new tab page with custom wallpapers and shortcuts.",
+  "chrome_url_overrides": {
+    "newtab": "new_tab_pro.html"
+  },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  }
+}
