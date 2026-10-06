@@ -9,3 +9,5 @@ A highly customizable, aesthetic new tab page for Brave and Chromium browsers.
 2. Open your browser and go to `chrome://extensions/` (or `brave://extensions/`).
 3. Turn on **Developer mode** in the top right.
 4. Click **Load unpacked** and select the extracted folder.
+5. Preview Images 👇
+<img width="1920" height="1080" alt="Screenshot (1290)" src="https://github.com/user-attachments/assets/24a3d2b1-462c-4ebc-8d71-5688a0b557b7" />
